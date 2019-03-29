@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8' />
+<title>Population Density</title>
+<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js'></script>
+<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css' rel='stylesheet' />
+<link rel="stylesheet" href="style.css" />
+<style>
+body { margin:0; padding:0; }
+#map { position:absolute; top:0; bottom:0; width:100%; }
+</style>
+</head>
+<body>
+
+<div class="floater">
+    <ul class="leg-list">
+      <li id="rain"><span style='background: #FFF8FD; opacity: .9;'></span>Low Density</li>
+      <br>
+      <li id="tree"><span style='background: #FF00BD; opacity: .5'></span>Medium Density</li>
+      <br>
+      <li id="other"><span style='background:#FF00BD; opacity: 0.9'></span>High Density</li>
+      <br>
+    </ul>
+    <h4 class="desc">Colors fade to blue upon zoom; shades remain the same</h4>
+  </div>
+
+<div id='map'></div>
+<script>
+mapboxgl.accessToken = 'pk.eyJ1Ijoic3RyZWV0ZmlnaHRzIiwiYSI6ImNqdGtlZ2QyZDM5dnozem8zMnQ0MmNxcTgifQ.4HRlIEHjijTwMlVWGkoENw';
+var map = new mapboxgl.Map({
+container: 'map', // container id
+style: 'mapbox://styles/streetfights/cjttyipph0u0i1hny7j1lk1dk', // stylesheet location
+center: [30.0222, -1.9596], // starting position [lng, lat]
+zoom: 7 // starting zoom
+});
+
+map.on('load', function () {
+
+map.addLayer({
+'id': 'rwanda-provinces',
+'type': 'fill',
+'source': {
+'type': 'geojson',
+'data': 'https://docs.mapbox.com/mapbox-gl-js/assets/rwanda-provinces.geojson'
+},
+'layout': {},
+'paint': {
+'fill-color':
+["let", "density", ["/", ["get", "population"], ["get", "sq-km"]],
+[
+"interpolate",
+["linear"],
+["zoom"],
+8,
+[
+"interpolate",
+["linear"],
+["var", "density"],
+274,
+["to-color", "#edf8e9"],
+1551,
+["to-color", "#FF00BD"]
+],
+10,
+[
+"interpolate",
+["linear"],
+["var", "density"],
+274,
+["to-color", "#eff3ff"],
+1551,
+["to-color", "#08519c"]
+]
+]
+],
+'fill-opacity': .7
+}
+});
+});
+</script>
+
+</body>
+</html>

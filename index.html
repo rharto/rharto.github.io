@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8' />
+<title>Watch Buildings Appear! OooOoo</title>
+<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js'></script>
+<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css' rel='stylesheet' />
+<style>
+body { margin:0; padding:0; }
+#map { position:absolute; top:0; bottom:0; width:100%; }
+</style>
+</head>
+<body>
+
+<style>
+#zoom  {
+display: block;
+position: relative;
+margin: 20px auto;
+width: 150px;
+height: 40px;
+padding: 10px;
+border: none;
+border-radius: 3px;
+font-size: 12px;
+text-align: center;
+color: #fff;
+background: black;
+border-radius: 15px;
+opacity: 0.8;
+}
+</style>
+
+<div id='map'></div>
+<button id='zoom'>Zoom For Buildings</button>
+<script>
+mapboxgl.accessToken = 'pk.eyJ1Ijoic3RyZWV0ZmlnaHRzIiwiYSI6ImNqdGtlZ2QyZDM5dnozem8zMnQ0MmNxcTgifQ.4HRlIEHjijTwMlVWGkoENw';
+var map = new mapboxgl.Map({
+container: 'map',
+style: 'mapbox://styles/streetfights/cjttyipph0u0i1hny7j1lk1dk',
+center: [-75.163977, 39.950947],
+zoom: 13
+});
+
+map.on('load', function() {
+map.setPaintProperty('building', 'fill-color', [
+"interpolate",
+["exponential", 0.5],
+["zoom"],
+15,
+"#FF00BD",
+22,
+"#FF00BD"
+]);
+
+map.setPaintProperty('building', 'fill-opacity', [
+"interpolate",
+["exponential", 0.5],
+["zoom"],
+15,
+0.5,
+22,
+1
+]);
+});
+
+document.getElementById('zoom').addEventListener('click', function () {
+map.zoomTo(19, {duration: 9000});
+});
+</script>
+
+</body>
+</html>
